@@ -66,6 +66,7 @@ If you want to rebuild the new model with your own dataset,
 ARGUMENTS
 ============
 lemp.py
+
     -i <input_file> : dataset file containing protein sequences as FASTA file format.
     -o <output_dir> : a directory containing the results of prediction of each sample.
 
@@ -76,6 +77,7 @@ lemp.py
 Note: Please designate each protein sequence in FASTA file with distinct name!
 
 model.py
+
     -t <training_set>      : the file path of training set, which must have the same format as "dataset/chen_train.txt".
     -i <independent_set>   : the file path of independent set, which must have the same format as "dataset/chen_test.txt".
     -d                     : rebuilt the LSTM-based deep learning model simultaneously (very time-consuming).
