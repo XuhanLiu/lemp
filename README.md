@@ -89,7 +89,9 @@ Note: Because maximum of file size in Github is 25M, our random forest model onl
 OUTPUT FORMAT
 ============
 lemp.py
+
     Output columns  : <Seq_ID>   <Site>  <Residue>   <Score>  <Y/N(sp=90%)>   <Y/N(sp=95%)>   <Y/N(sp=99%)>
+    
     1. Seq ID       : The ID of protein sequence, which is as same as in the fasta file.
     2. Site         : The position of the residue at the protein sequence.
     3. Residue      : The type of residue which is possibly malonylated. In common, it must be lysine (i.e. "K").
