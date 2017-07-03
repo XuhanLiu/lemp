@@ -11,7 +11,7 @@ from sklearn import ensemble
 from sklearn.linear_model import LogisticRegression
 from sklearn.externals import joblib
 from sklearn.model_selection import StratifiedKFold
-from sklearn.metrics import roc_curve, auc
+from sklearn.metrics import roc_curve
 
 AA = 'ARNDCQEGHILKMFPSTWYV'
 
@@ -40,11 +40,14 @@ def EAAC(frags):
     return np.array(eaacs)
 
 
-def rf_train(X, y, indep=None, save=None, cpu=1, out=None):
+def rf_train(X, y, indep=None, save=None, cpu=1, out=None, n_estimators=1000):
+    print('INFO: Begin to train the EAAC-based random forest model...')
     cvs = np.zeros((X.shape[0], 2))
     if indep:
         inds = np.zeros((len(indep[1]), 2))
-    model = ensemble.RandomForestClassifier(n_estimators=1000, n_jobs=cpu)
+    print('INFO: The number of tree is %d in random forest.' % n_estimators)
+    print('INFO: This model will be trained on %d CPUs.' % cpu)
+    model = ensemble.RandomForestClassifier(n_estimators=n_estimators, n_jobs=cpu)
     model.fit(X, y)
     scores = model.predict_proba(X)
     cvs[:, 0], cvs[:, 1] = y, scores[:, 1]
@@ -73,6 +76,7 @@ def RNN():
 
 
 def rnn_train(X, y, out, indep=None, batch_size=512, epochs=300):
+    print('INFO: Begin to train the LSTM-based deep learning model...')
     cvs = np.zeros((len(y), 2))
     folds = StratifiedKFold(5).split(X, y)
     if indep:
@@ -107,12 +111,9 @@ def set_config(path_eaac, path_lstm):
     fprs, tprs, thrs = roc_curve(y, model.predict_proba(X)[:, 1])
     cuts = [0, 0, 0]
     for i, fpr in enumerate(fprs):
-        print(fpr)
         for j, value in enumerate([0.1, 0.05, 0.01]):
             if np.abs(fpr - value) < np.abs(fprs[cuts[j]] - value):
                 cuts[j] = i
-    print([fprs[cut] for cut in cuts], [thrs[cut] for cut in cuts])
-    print(model.coef_)
     config = {'w_eaac': model.coef_[:, 0],
               'w_lstm': model.coef_[:, 1],
               'bias': model.intercept_,
@@ -122,10 +123,9 @@ def set_config(path_eaac, path_lstm):
     joblib.dump(config, 'model/config.pkl')
 
 
-def pep1(path, cut=0):
+def pep1(path):
     seqs = open(path).readlines()
-    X = [[AA.index(res.upper()) if res.upper() in AA else 20
-          for res in (seq.split()[0][cut:-cut] if cut != 0 else seq.split()[0])]
+    X = [[AA.index(res.upper()) if res.upper() in AA else 20 for res in (seq.split()[0])]
          for seq in seqs if seq.strip() != '']
     y = np.array([int(seq.split()[-1]) for seq in seqs if seq.strip() != ''])
     return EAAC(X), y
@@ -133,30 +133,32 @@ def pep1(path, cut=0):
 
 if __name__ == '__main__':
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "i:o:n:")
+        opts, args = getopt.getopt(sys.argv[1:], "di:o:n:e:")
         OPT = dict(opts)
     except getopt.GetoptError:
         print('ERROR: Invalid arguments usage.')
         sys.exit(2)
     if '-t' not in OPT:
-        print('Training set is not given, \'dataset/chen_train.txt\' will be used as default')
+        print('INFO: Training set is not given, \'dataset/chen_train.txt\' will be used as default')
         OPT['-t'] = 'dataset/chen_train.txt'
     if not os.path.exists(OPT['-t']):
         print('ERROR: Training set file cannot be found.')
         sys.exit(2)
     if '-i' not in OPT:
-        print('Independent set is not given, \'dataset/chen_test.txt\' will be used as default')
+        print('INFO: Independent set is not given, \'dataset/chen_test.txt\' will be used as default')
         OPT['-i'] = 'dataset/chen_test.txt'
     if not os.path.exists(OPT['-i']):
         print('ERROR: Independent file cannot be found.')
         sys.exit(2)
-    if '-n' not in OPT or type(OPT['-n']) is not int:
+    if '-n' not in OPT:
         OPT['-n'] = 1
-
+    if '-e' not in OPT:
+        OPT['-e'] = 1000
     X, y = pep1(OPT['-t'])
     indep = pep1(OPT['-i'])
-    rf_train(X, y, indep=indep, out='dataset/eaac', save='model/eaac', cpu=OPT['-n'])
-    rnn_train(X, y, indep=indep, out='dataset/lstm')
+    rf_train(X, y, indep=indep, out='dataset/eaac', save='model/eaac', cpu=int(OPT['-n']), n_estimators=int(OPT['-e']))
+    if '-d' in OPT:
+        rnn_train(X, y, indep=indep, out='dataset/lstm')
     set_config('dataset/eaac.ind.txt', 'dataset/lstm.ind.txt')
 
     print('=== SUCCESS ===')

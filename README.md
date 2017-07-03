@@ -61,10 +61,11 @@ If you want to rebuild the new model with your own dataset,
 
     2). excute following shell:
 
-            python model.py
+            python model.py [-t <training_set>] [-i <independent_set>] [-d] [-n <int>] [-e <int>]
 
 ARGUMENTS
 ============
+lemp.py
     -i <input_file> : dataset file containing protein sequences as FASTA file format.
     -o <output_dir> : a directory containing the results of prediction of each sample.
 
@@ -74,9 +75,21 @@ ARGUMENTS
 
 Note: Please designate each protein sequence in FASTA file with distinct name!
 
+model.py
+    -t <training_set>      : the file path of training set, which must have the same format as "dataset/chen_train.txt".
+    -i <independent_set>   : the file path of independent set, which must have the same format as "dataset/chen_test.txt".
+    -d                     : rebuilt the LSTM-based deep learning model simultaneously (very time-consuming).
+    -n <int>               : the number of CPU to train the model.
+    -e <int>               : the number of trees in random forest classifier.
+
+Note: Because maximum of file size in Github is 25M, our random forest model only contain 100 trees,
+      if you want get more precise results, please run "model.py" without parameters to rebuild the random forest model.
+
+
 OUTPUT FORMAT
 ============
-<Seq_ID>   <Site>  <Residue>   <Score>  <Y/N(sp=90%)>   <Y/N(sp=95%)>   <Y/N(sp=99%)>
+lemp.py
+    Output columns  : <Seq_ID>   <Site>  <Residue>   <Score>  <Y/N(sp=90%)>   <Y/N(sp=95%)>   <Y/N(sp=99%)>
     1. Seq ID       : The ID of protein sequence, which is as same as in the fasta file.
     2. Site         : The position of the residue at the protein sequence.
     3. Residue      : The type of residue which is possibly malonylated. In common, it must be lysine (i.e. "K").
