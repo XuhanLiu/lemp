@@ -30,8 +30,6 @@ OPTIONAL ARGUMENTS
     -v                   : Version information of this software.
 
     -h                   : Help information, print USAGE and ARGUMENTS messages.
-    
-Note: Please designate each protein sequence in FASTA file with distinct name!
 """
 
 VERSION = """
