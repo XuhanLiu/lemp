@@ -16,12 +16,12 @@ USAGE
     python lemp.py  -i <input_file> [-o <output_file>] [-h] [-v]
 
 OPTIONAL ARGUMENTS
-    -i <input_file> : dataset file containing protein sequences as FASTA file format.
-    -o <output_dir> : a directory containing the results of prediction of each sample.
+    -i <input_file>  : dataset file containing protein sequences as FASTA file format.
+    -o <output_file> : a directory containing the results of prediction of each sample.
     
-    -v              : version information of this software.
+    -v               : version information of this software.
 
-    -h              : Help information, print USAGE and ARGUMENTS messages.
+    -h               : Help information, print USAGE and ARGUMENTS messages.
 
 Note: Please designate each protein sequence in FASTA file with distinct name!
 """
