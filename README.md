@@ -88,7 +88,11 @@ model.py
     -e <int>               : the number of trees in random forest classifier.
 
 Note: Because maximum of file size in Github is 25M, our random forest model only contain 100 trees,
-      if you want get more precise results, please run "model.py" without parameters to rebuild the random forest model.
+      if you want get more precise results, please run 
+      
+        python model.py
+      
+      without parameters to rebuild the random forest model.
 
 
 OUTPUT FORMAT
