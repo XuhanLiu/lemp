@@ -15,6 +15,33 @@ from sklearn.metrics import roc_curve
 
 AA = 'ARNDCQEGHILKMFPSTWYV'
 
+HELP = """
+USAGE
+    python model.py [-t <training_set>] [-i <independent_set>] [-d] [-n <int>] [-e <int>]
+
+OPTIONAL ARGUMENTS
+
+    -t <training_set>    : the file of training set, which must have the same format as "dataset/chen_train.txt".
+    -i <independent_set> : the file of independent set, which must have the same format as "dataset/chen_test.txt".
+    -d                   : rebuilt the LSTM-based deep learning model simultaneously (very time-consuming).
+    -n <int>             : the number of CPU to train the model.
+    -e <int>             : the number of trees in random forest classifier.
+    
+    -v                   : Version information of this software.
+
+    -h                   : Help information, print USAGE and ARGUMENTS messages.
+    
+Note: Please designate each protein sequence in FASTA file with distinct name!
+"""
+
+VERSION = """
+DESCRIPTION
+   Name             : LEMP_Model_Generation
+   Version          : 1.0
+   Update Time      : 2017-07-01
+   Author           : Xuhan Liu & Zhen Chen
+"""
+
 
 class Config:
     def __init__(self, w_lstm, w_eaac, bias, cut90, cut95, cut99):
@@ -133,32 +160,38 @@ def pep1(path):
 
 if __name__ == '__main__':
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "di:o:n:e:")
+        opts, args = getopt.getopt(sys.argv[1:], "hvdi:o:n:e:")
         OPT = dict(opts)
     except getopt.GetoptError:
         print('ERROR: Invalid arguments usage.')
         sys.exit(2)
-    if '-t' not in OPT:
-        print('INFO: Training set is not given, \'dataset/chen_train.txt\' will be used as default')
-        OPT['-t'] = 'dataset/chen_train.txt'
-    if not os.path.exists(OPT['-t']):
-        print('ERROR: Training set file cannot be found.')
-        sys.exit(2)
-    if '-i' not in OPT:
-        print('INFO: Independent set is not given, \'dataset/chen_test.txt\' will be used as default')
-        OPT['-i'] = 'dataset/chen_test.txt'
-    if not os.path.exists(OPT['-i']):
-        print('ERROR: Independent file cannot be found.')
-        sys.exit(2)
-    if '-n' not in OPT:
-        OPT['-n'] = 1
-    if '-e' not in OPT:
-        OPT['-e'] = 1000
-    X, y = pep1(OPT['-t'])
-    indep = pep1(OPT['-i'])
-    rf_train(X, y, indep=indep, out='dataset/eaac', save='model/eaac', cpu=int(OPT['-n']), n_estimators=int(OPT['-e']))
-    if '-d' in OPT:
-        rnn_train(X, y, indep=indep, out='dataset/lstm')
-    set_config('dataset/eaac.ind.txt', 'dataset/lstm.ind.txt')
+    if '-h' in OPT:
+        print(HELP + '\n')
+    elif '-v' in OPT:
+        print(VERSION + '\n')
+    else:
+        if '-t' not in OPT:
+            print('INFO: Training set is not given, \'dataset/chen_train.txt\' will be used as default')
+            OPT['-t'] = 'dataset/chen_train.txt'
+        if not os.path.exists(OPT['-t']):
+            print('ERROR: Training set file cannot be found.')
+            sys.exit(2)
+        if '-i' not in OPT:
+            print('INFO: Independent set is not given, \'dataset/chen_test.txt\' will be used as default')
+            OPT['-i'] = 'dataset/chen_test.txt'
+        if not os.path.exists(OPT['-i']):
+            print('ERROR: Independent file cannot be found.')
+            sys.exit(2)
+        if '-n' not in OPT:
+            OPT['-n'] = 1
+        if '-e' not in OPT:
+            OPT['-e'] = 1000
+        X, y = pep1(OPT['-t'])
+        indep = pep1(OPT['-i'])
+        rf_train(X, y, indep=indep, out='dataset/eaac', save='model/eaac', cpu=int(OPT['-n']), n_estimators=int(OPT['-e']))
+        if '-d' in OPT:
+            rnn_train(X, y, indep=indep, out='dataset/lstm')
+        set_config('dataset/eaac.ind.txt', 'dataset/lstm.ind.txt')
 
-    print('=== SUCCESS ===')
+        print('=== SUCCESS ===')
+
