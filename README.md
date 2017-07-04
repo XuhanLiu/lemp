@@ -10,9 +10,13 @@ Here are some very brief notes on using the LEMP V1.0 software.
 Please see the LICENSE file for the license terms for the software.
 Basically it's free to academic users.
 If you do wish to sell the software or use it in a commercial product,
-then please contact xuhanliu@qq.com.
+then please contact the following E-mails,
 
-Before compile LEMP, please make sure that integrity of the software.
+    Xuhan Liu: xuhanliu@qq.com 
+or 
+    
+    Zhen chen: chenzhen-win2009@163.com.
+
 
 INSTALLATION
 ============
