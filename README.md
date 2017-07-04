@@ -6,8 +6,6 @@ LEMP (LSTM-based Ensemble Malonylation Predictor) Version 1.0
 By Xuhan Liu & Zhen Chen, 
 on July 1st 2017
 
-Here are some very brief notes on using the LEMP V1.0 software.
-
 Please see the LICENSE file for the license terms for the software.
 Basically it's free to academic users.
 If you do wish to sell the software or use it in a commercial product,
