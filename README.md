@@ -15,7 +15,7 @@ then please contact the following E-mails,
     Xuhan Liu: xuhanliu@qq.com 
 or 
     
-    Zhen chen: chenzhen-win2009@163.com.
+    Zhen chen: chenzhen-win2009@163.com
 
 
 INSTALLATION
