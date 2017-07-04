@@ -91,7 +91,7 @@ Note: Because maximum of file size in Github is 25M, our random forest model onl
 
     python model.py
 
-without parameters to rebuild the random forest model.
+without any parameters to rebuild the random forest model.
 
 
 OUTPUT FORMAT
