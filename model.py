@@ -41,16 +41,6 @@ DESCRIPTION
 """
 
 
-class Config:
-    def __init__(self, w_lstm, w_eaac, bias, cut90, cut95, cut99):
-        self.w_lstm = w_lstm
-        self.w_eaac = w_eaac
-        self.bias = bias
-        self.cut90 = cut90
-        self.cut95 = cut95
-        self.cut99 = cut99
-
-
 def EAAC(frags):
     eaacs = []
     for frag in frags:
