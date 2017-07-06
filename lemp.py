@@ -45,7 +45,7 @@ def Snippet(fasta):
         frags = []
         for i, res in enumerate(seq):
             if res != 'K': continue
-            frag = [i]
+            frag = [i+1]
             for j in range(i - 15, i + 16):
                 if j < 0 or j >= len(seq):
                     frag.append(20)
