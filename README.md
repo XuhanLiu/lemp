@@ -19,7 +19,7 @@ or
 
 INSTALLATION
 ============
-Firstly, ensure that the version of your Python == 2.7.
+Firstly, ensure that the version of your Python >= 2.7.
 
 Secondly, all the following packages are installed in your machine:
 
@@ -115,4 +115,8 @@ lemp.py
 Note: The larger value of specification under which it was judged as malonylation site,
       The higher confidence of the result will be.
 
-Finished.
+REFERENCE
+=========
+Zhen Chen, Ningning He, Yu Huang, Wen Tao Qin, Xuhan Liu*, Lei Li*. Integration of A Deep Learning Classifier with A Random Forest Approach for Predicting Malonylation Sites. Genomics, Proteomics & Bioinformatics; ISSN(2019) pp. 1672-0229
+
+https://doi.org/10.1016/j.gpb.2018.08.004
