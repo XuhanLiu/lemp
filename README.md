@@ -19,7 +19,7 @@ or
 
 INSTALLATION
 ============
-Firstly, ensure that the version of your Python >= 2.7.
+Firstly, ensure that the version of your Python == 2.7.
 
 Secondly, all the following packages are installed in your machine:
 
